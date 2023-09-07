@@ -7,7 +7,7 @@
   "scripts": {
     "develop": "node index.js",
     "build": "tsc -p . -w",
-    "start": "node index.js",
+    "start": "nodemon index.js",
     "dev": "nodemon index.ts"
   },
   "keywords": [],
