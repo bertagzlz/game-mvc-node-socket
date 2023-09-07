@@ -24,7 +24,10 @@ const Partida = require("./models/Partida.js");
 const Jugador = require("./models/Jugador.js");
 
 const httpServer = http.createServer();
-httpServer.listen(9090, () => console.log("Websockets por el puerto 9090"))
+httpServer.listen(9090, () => {
+    console.log("Websockets por el puerto 9090");
+}
+)
 
 //   OBJETO DE CONEXIONES DE J U G A D O R E S
 global.clients = {};
