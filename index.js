@@ -24,6 +24,19 @@ httpServer.listen(9090, () => {
     }
 )
 
+const WebSocket = require('ws')
+const PORT = process.env.PORT || 3000;
+const wss = new WebSocket.Server({ port: PORT })
+wss.on('connection', ws => {
+    ws.on('message', message => {
+        console.log(`Received message => ${message}`)
+    })
+    ws.send('Hello! Message From Server!!')
+})
+
+
+
+
 //   C A R G A   D E   D A T O S   L O C A L E S   D O S   A R R A Y S
 global.users=require("./data/data").users;
 global.salas=require("./data/data").salas;
