@@ -14,8 +14,15 @@ const session = require('express-session');
 const passport = require("passport");
 const { loginCheck } = require("./auth/passport");
 loginCheck(passport);
+
+
 const websocketServer = require("websocket").server;
 const http = require("http");
+const httpServer = http.createServer();
+httpServer.listen(9090, () => {
+        console.log("Websockets por el puerto 9090");
+    }
+)
 
 //   C A R G A   D E   D A T O S   L O C A L E S   D O S   A R R A Y S
 global.users=require("./data/data").users;
@@ -23,11 +30,7 @@ global.salas=require("./data/data").salas;
 const Partida = require("./models/Partida.js");
 const Jugador = require("./models/Jugador.js");
 
-const httpServer = http.createServer();
-httpServer.listen(9090, () => {
-    console.log("Websockets por el puerto 9090");
-}
-)
+
 
 //   OBJETO DE CONEXIONES DE J U G A D O R E S
 global.clients = {};
