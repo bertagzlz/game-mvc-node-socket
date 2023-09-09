@@ -10,7 +10,8 @@ app.set("view engine", "ejs");
 // BODY PARSING
 app.use(express.urlencoded({ extended: false }));
 
-const session = require('express-session');
+//const session = require('express-session');
+var session = require('cookie-session');
 const passport = require("passport");
 const { loginCheck } = require("./auth/passport");
 loginCheck(passport);
