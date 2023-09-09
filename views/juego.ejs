@@ -72,8 +72,8 @@
     let idJugador=JSON.parse('<%- JSON.stringify(user.id) %>');
 
 
-    //let ws = new WebSocket("ws://localhost:9090"); // FUNCIONA BIEN EN LOCAL
-    let ws = new WebSocket("wss://game-mvc-node-socket.onrender.com/healthz");
+    let ws = new WebSocket("ws://localhost:9090"); // FUNCIONA BIEN EN LOCAL
+    //let ws = new WebSocket("wss://game-mvc-node-socket.onrender.com");
 
     // Venimos aquí con login. Le decimos al server que estamos.
     ws.addEventListener("open", (ev) => {
