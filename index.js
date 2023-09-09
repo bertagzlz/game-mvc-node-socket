@@ -19,31 +19,17 @@ loginCheck(passport);
 const websocketServer = require("websocket").server;
 const http = require("http");
 const httpServer = http.createServer();
-httpServer.listen(9090, () => {
+const WEB_SOCKET_PORT = process.env.WEB_SOCKET_PORT || 9090;
+httpServer.listen(WEB_SOCKET_PORT, () => {
         console.log("Websockets por el puerto 9090");
     }
 )
-
-const WebSocket = require('ws')
-const PORT = process.env.PORT || 3000;
-const wss = new WebSocket.Server({ port: PORT })
-wss.on('connection', ws => {
-    ws.on('message', message => {
-        console.log(`Received message => ${message}`)
-    })
-    ws.send('Hello! Message From Server!!')
-})
-
-
-
 
 //   C A R G A   D E   D A T O S   L O C A L E S   D O S   A R R A Y S
 global.users=require("./data/data").users;
 global.salas=require("./data/data").salas;
 const Partida = require("./models/Partida.js");
 const Jugador = require("./models/Jugador.js");
-
-
 
 //   OBJETO DE CONEXIONES DE J U G A D O R E S
 global.clients = {};
@@ -300,8 +286,6 @@ function updateGameState(){
     }
     setTimeout(updateGameState, 500);
 }
-
-
 //
 app.use(session({
     secret:'p3node',
@@ -318,6 +302,9 @@ app.use(passport.session());
 app.use("/", require("./controllers/entrada"));
 
 const PORT = process.env.PORT || 4111;
+//const PORT = 4111;
+//const HOST='localhost';
+//app.listen(PORT, HOST, () => {console.log("Node servidor por el puerto " + PORT)});
 app.listen(PORT, console.log("Node servidor por el puerto " + PORT));
 
 
