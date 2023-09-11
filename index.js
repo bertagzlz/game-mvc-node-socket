@@ -1,30 +1,20 @@
 const express = require("express");
-const app = express();
+const server = express();
 
 // CARPETA PÚBLICA PASA JS, IMÁGENES
-app.use(express.static('views'));
+server.use(express.static('views'));
 
 // USO EJS POR HABERLO USADO EN P2. motor plantillas similar a PUG
-app.set("view engine", "ejs");
+server.set("view engine", "ejs");
 
 // BODY PARSING
-app.use(express.urlencoded({ extended: false }));
+server.use(express.urlencoded({ extended: false }));
 
-//const session = require('express-session');
-var session = require('cookie-session');
+const session = require('express-session');
+//var session = require('cookie-session');
 const passport = require("passport");
 const { loginCheck } = require("./auth/passport");
 loginCheck(passport);
-
-
-const websocketServer = require("websocket").server;
-const http = require("http");
-const httpServer = http.createServer();
-const WEB_SOCKET_PORT = process.env.WEB_SOCKET_PORT || 9090;
-httpServer.listen(WEB_SOCKET_PORT, () => {
-        console.log("Websockets por el puerto 9090");
-    }
-)
 
 //   C A R G A   D E   D A T O S   L O C A L E S   D O S   A R R A Y S
 global.users=require("./data/data").users;
@@ -48,15 +38,27 @@ salas.forEach(sala=>{
     partidas.set(sala.id,value)
 })
 
+const http = require("http");
+const WEB_SOCKET_PORT = process.env.WEB_SOCKET_PORT || 9090;
+const websocketServer = require("websocket").server;
+const httpServer = http.createServer();
+httpServer.listen(WEB_SOCKET_PORT, () => {
+        console.log("Websockets por el puerto "+ WEB_SOCKET_PORT);
+    }
+)
+
 //   B U C L E   D E   M E N S A J E S
+// instance of the websocket server:
+//const wsServer = require('express-ws')(server);
 const wsServer = new websocketServer({ "httpServer": httpServer })
 wsServer.on("request", request => {
 
     //   C O N N E C T
     const connection = request.accept(null, request.origin);
+    //   O P E N
     connection.on("open", () => console.log("opened!"))
+    //   C O N N E C T
     connection.on("close", () => console.log("closed!"))
-
     //   O N   M E S S A G E   F R O M   J U G A D O R
     connection.on("message", message => {
 
@@ -205,7 +207,6 @@ wsServer.on("request", request => {
         jugadoresPorSala[key]=value.jugadores.length;
     }
 
-
     const payLoadSalas = {
         "method": "updateSalas",
         "partidas": partidas
@@ -215,6 +216,7 @@ wsServer.on("request", request => {
         }
     })*/
 })
+
 // irá a la sala de la ventana contraria
 function updateMiAvatarAlResto(idJugador,idSala) {
     conectados.forEach(idContrario=> {
@@ -288,7 +290,7 @@ function updateGameState(){
     setTimeout(updateGameState, 500);
 }
 //
-app.use(session({
+server.use(session({
     secret:'p3node',
     saveUninitialized: true,
     resave: true
@@ -296,16 +298,18 @@ app.use(session({
 
 // MODULO PASSPORT para autenticar usuarios con datos locales
 // npm install passport-local para uso con datos locales
-app.use(passport.initialize());
-app.use(passport.session());
+server.use(passport.initialize());
+server.use(passport.session());
 
 // ENTRADA PRINCIPAL A LA APLICACIÓN
-app.use("/", require("./controllers/entrada"));
+server.use("/", require("./controllers/entrada"));
 
-const PORT = process.env.PORT || 4111;
-//const PORT = 4111;
-//const HOST='localhost';
-//app.listen(PORT, HOST, () => {console.log("Node servidor por el puerto " + PORT)});
-app.listen(PORT, console.log("Node servidor por el puerto " + PORT));
+// this runs after the server successfully starts:
+function serverStart() {
+
+    console.log('Server listening on port ' + PORT);
+}
+var PORT = process.env.PORT || 4111;
+server.listen(PORT, serverStart());
 
 
