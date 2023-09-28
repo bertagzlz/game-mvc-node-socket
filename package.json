@@ -9,7 +9,7 @@
   "scripts": {
     "develop": "node index.js",
     "build": "tsc -p . -w",
-    "start": "nodeindex.js",
+    "start": "node index.js",
     "dev": "nodemon index.ts"
   },
   "keywords": [],
