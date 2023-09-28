@@ -66,7 +66,12 @@
 <script>
     // get the server URL from the window.location:
     // change 'wss' to 'ws' for running without SSL):
-    let serverURL = 'ws://' + window.location.hostname+':9090';
+
+    //let serverURL = 'ws://' + window.location.hostname+':9090';
+
+    // for docker and render
+    //let serverURL = 'wss://' + '0.0.0.0:9090/';
+    let serverURL = "wss://game-mvc-node-socket-wss.onrender.com"
     console.log("ws por: "+serverURL);
     // window.location.host contiene localhost:4111
     // the webSocket connection:
@@ -78,7 +83,8 @@
     let idJugador=JSON.parse('<%- JSON.stringify(user.id) %>');
 
     //let ws = new WebSocket("ws://localhost:9090"); // FUNCIONA BIEN EN LOCAL
-    //let ws = new WebSocket("wss://game-mvc-node-socket.onrender.com");
+    //let ws = new WebSocket("wss://game-mvc-node-socket-wss.onrender.com");
+
 
     // Venimos aquí con login. Le decimos al server que estamos.
     /*ws.addEventListener("open", (ev) => {
@@ -250,7 +256,7 @@
 
     function setup() {
         // open the socket:
-        ws = new WebSocket(serverURL);
+        ws = new WebSocket(serverURL, {headers:{'user-agent': 'Mozilla'}});
         ws.addEventListener('open', openConnection);
         //socket.addEventListener('close', closeConnection);
         ws.addEventListener('message', readIncomingMessage);

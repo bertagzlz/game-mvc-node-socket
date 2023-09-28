@@ -1,6 +1,6 @@
 const express = require("express");
 const server = express();
-
+const cors=require("cors");
 // CARPETA PÚBLICA PASA JS, IMÁGENES
 server.use(express.static('views'));
 
@@ -50,7 +50,8 @@ httpServer.listen(WEB_SOCKET_PORT, () => {
 //   B U C L E   D E   M E N S A J E S
 // instance of the websocket server:
 //const wsServer = require('express-ws')(server);
-const wsServer = new websocketServer({ "httpServer": httpServer })
+const wsServer = new websocketServer( {'httpServer': httpServer, cors: { origin:'*' } })
+server.use(cors());
 wsServer.on("request", request => {
 
     //   C O N N E C T

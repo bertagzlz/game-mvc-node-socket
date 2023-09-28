@@ -8,10 +8,11 @@ COPY package*.json ./
 COPY . .
 RUN npm ci
 EXPOSE 4111
+EXPOSE 9090
 
-# CMD ["npm", "run", "start"]
+ CMD ["npm", "run", "start"]
 # CMD [ "node", "index.js" ]
-CMD ["npm", "run", "develop"]
+# CMD ["npm", "run", "develop"]
 # construyo la imagen
 # docker build -f ./Dockerfile -t game-mvc-node-socket .
 
@@ -20,3 +21,5 @@ CMD ["npm", "run", "develop"]
 
 # Ejecuto en local para probarla
 # docker run -p 4111:4111 game-mvc-node-socket
+
+#docker container run -dp 4111:4111 -t game-mvc-node-socket
