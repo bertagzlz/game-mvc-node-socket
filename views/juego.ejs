@@ -55,7 +55,7 @@
 <script>
     // change 'wss' to 'ws' for running without SSL):
     //let serverURL = 'wss://' + window.location.hostname+':8443';
-    let serverURL=window.location.hostname==='localhost'?'ws://'+window.location.hostname+':9090':'wss://'+window.location.hostname;
+    let serverURL=window.location.hostname==='localhost'?'ws://'+window.location.hostname+':9090':'wss://'+window.location.hostname+':9090';
     //let serverURL = 'ws://' + s;
     //let serverURL = 'wss://game-mvc-node-socket-wss.onrender.com';
     console.log("Ws por: "+serverURL);
