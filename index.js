@@ -63,6 +63,7 @@ const websocketServer = require("websocket").server;
 const httpServer = http.createServer();
 httpServer.listen(WEB_SOCKET_PORT, () => {
         console.log("Websockets por el puerto "+ WEB_SOCKET_PORT);
+    console.log("Node dir: "+process.cwd());
     }
 )
 
